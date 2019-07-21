@@ -37,6 +37,7 @@ public final class Constants
 	public static final String PAGE_SIZE = "page_size";
 	public static final String FORMAT = "format";
 
+	public static final String JSON = "json";
 
 	private Constants() {}
 }
