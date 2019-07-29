@@ -8,12 +8,12 @@ import org.slf4j.LoggerFactory;
 import com.dardan.rrafshi.commons.Systems;
 import com.dardan.rrafshi.jmusixmatch.MusixMatch;
 import com.dardan.rrafshi.jmusixmatch.MusixMatchException;
-import com.dardan.rrafshi.jmusixmatch.model.Track;
+import com.dardan.rrafshi.jmusixmatch.model.Album;
 
 
-public final class TestGetTrack
+public final class TestGetAlbum
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(TestGetTrack.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestGetAlbum.class);
 
 
 	public static void main(final String[] args)
@@ -22,11 +22,9 @@ public final class TestGetTrack
 
 		try {
 			final MusixMatch musixMatch = new MusixMatch(apiKey);
-			final Track track = musixMatch.getTrack(78294762);
+			final Album album = musixMatch.getAlbum(20222049);
 
-			LOGGER.info(track.getArtistName() + " - " + track.getTrackName());
-			LOGGER.info(track.getAlbumName() + " - " + track.getAlbumID());
-			LOGGER.info(track.getArtistName() + " - " + track.getArtistID());
+			LOGGER.info(album.getAlbumName() + " - " + album.getAlbumCopyright());
 
 		} catch (final MusixMatchException.RequestFailed exception) {
 

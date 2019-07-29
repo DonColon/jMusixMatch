@@ -2,7 +2,9 @@ package com.dardan.rrafshi.jmusixmatch;
 
 import java.io.IOException;
 
+import com.dardan.rrafshi.jmusixmatch.model.Album;
 import com.dardan.rrafshi.jmusixmatch.model.Track;
+import com.dardan.rrafshi.jmusixmatch.responses.AlbumGetMessage;
 import com.dardan.rrafshi.jmusixmatch.responses.TrackGetMessage;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -76,6 +78,29 @@ public final class MusixMatch
 			throw new MusixMatchException.RequestFailed("Failed to get track '" + trackName + "' of artist '" + artistName + "'", exception);
 		}
 	}
+
+	public Album getAlbum(final int albumID)
+		throws MusixMatchException.RequestFailed
+	{
+		final HttpUrl url = HttpUrl.parse(Constants.API_URL)
+				.newBuilder()
+				.addPathSegment(Constants.API_VERSION)
+				.addPathSegment(Endpoints.ALBUM_GET)
+				.addQueryParameter(Constants.FORMAT, Constants.JSON)
+				.addQueryParameter(Constants.API_KEY, this.apiKey)
+				.addQueryParameter(Constants.ALBUM_ID, String.valueOf(albumID))
+				.build();
+
+		try {
+			final AlbumGetMessage message = this.get(url, AlbumGetMessage.class);
+			return message.getBody().getAlbum();
+
+		} catch (MusixMatchException.RequestFailed | MusixMatchException.MappingFailed exception) {
+
+			throw new MusixMatchException.RequestFailed("Failed to get album with the ID '" + albumID + "'", exception);
+		}
+	}
+
 
 	private <R> R get(final HttpUrl url, final Class<R> valueType)
 		throws MusixMatchException.RequestFailed, MusixMatchException.MappingFailed
