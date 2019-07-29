@@ -12,9 +12,6 @@ public final class Album
 	@JsonProperty("album_id")
 	private int albumID;
 
-	@JsonProperty("album_mbid")
-	private String albumMBID;
-
 	@JsonProperty("album_name")
 	private String albumName;
 
@@ -61,16 +58,6 @@ public final class Album
 	public void setAlbumID(final int albumID)
 	{
 		this.albumID = albumID;
-	}
-
-	public String getAlbumMBID()
-	{
-		return this.albumMBID;
-	}
-
-	public void setAlbumMBID(final String albumMBID)
-	{
-		this.albumMBID = albumMBID;
 	}
 
 	public String getAlbumName()

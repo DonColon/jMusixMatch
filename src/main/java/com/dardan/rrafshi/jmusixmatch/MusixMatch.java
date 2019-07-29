@@ -3,8 +3,10 @@ package com.dardan.rrafshi.jmusixmatch;
 import java.io.IOException;
 
 import com.dardan.rrafshi.jmusixmatch.model.Album;
+import com.dardan.rrafshi.jmusixmatch.model.Artist;
 import com.dardan.rrafshi.jmusixmatch.model.Track;
 import com.dardan.rrafshi.jmusixmatch.responses.AlbumGetMessage;
+import com.dardan.rrafshi.jmusixmatch.responses.ArtistGetMessage;
 import com.dardan.rrafshi.jmusixmatch.responses.TrackGetMessage;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -98,6 +100,28 @@ public final class MusixMatch
 		} catch (MusixMatchException.RequestFailed | MusixMatchException.MappingFailed exception) {
 
 			throw new MusixMatchException.RequestFailed("Failed to get album with the ID '" + albumID + "'", exception);
+		}
+	}
+
+	public Artist getArtist(final int artistID)
+		throws MusixMatchException.RequestFailed
+	{
+		final HttpUrl url = HttpUrl.parse(Constants.API_URL)
+				.newBuilder()
+				.addPathSegment(Constants.API_VERSION)
+				.addPathSegment(Endpoints.ARTIST_GET)
+				.addQueryParameter(Constants.FORMAT, Constants.JSON)
+				.addQueryParameter(Constants.API_KEY, this.apiKey)
+				.addQueryParameter(Constants.ARTIST_ID, String.valueOf(artistID))
+				.build();
+
+		try {
+			final ArtistGetMessage message = this.get(url, ArtistGetMessage.class);
+			return message.getBody().getArtist();
+
+		} catch (MusixMatchException.RequestFailed | MusixMatchException.MappingFailed exception) {
+
+			throw new MusixMatchException.RequestFailed("Failed to get artist with the ID'" + artistID + "'", exception);
 		}
 	}
 
